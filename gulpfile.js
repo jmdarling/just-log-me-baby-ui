@@ -42,4 +42,6 @@ gulp.task('serve', () => {
   })
 })
 
+gulp.task('build', ['copy-html', 'build-scripts'])
+
 gulp.task('default', ['watch-html', 'watch-scripts', 'serve'])

@@ -3,6 +3,9 @@
   "version": "0.0.1",
   "description": "UI for Just Log Me Baby",
   "scripts": {
+    "build": "node ./node_modules/.bin/gulp build",
+    "postinstall": "npm run-script build",
+    "start": "node ./node_modules/.bin/http-server ./bin/ -p 8182",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "author": "Jonathan Darling <jmdarling@me.com> (jmdarling.com)",
@@ -18,6 +21,8 @@
     "vinyl-source-stream": "^1.1.0"
   },
   "dependencies": {
+    "d3": "^4.4.0",
+    "http-server": "^0.9.0",
     "whatwg-fetch": "^2.0.1"
   }
 }
