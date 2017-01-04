@@ -34,17 +34,20 @@ function renderChart (chartData) {
   const chartWidthPx = chartWrapper.scrollWidth
   const barHorizontalPaddingPx = 2
 
+  // Remove old chart, so we can put in the new one.
   d3
   .select(chartWrapperSelector)
   .select('svg')
   .remove()
 
-  d3
-  .select(chartWrapperSelector)
-    .append('svg')
-      .attr('height', chartHeightPx + 'px')
-      .attr('width', chartWidthPx + 'px')
-    .selectAll('rect')
+  const chart =
+    d3
+    .select(chartWrapperSelector)
+      .append('svg')
+        .attr('height', chartHeightPx + 'px')
+        .attr('width', chartWidthPx + 'px')
+
+  chart.selectAll('rect')
     .data(chartData)
     .enter()
     .append('rect')
@@ -72,7 +75,27 @@ function renderChart (chartData) {
           return currentMax
         }, 0), chartHeightPx) + 'px'
       })
-      .attr('fill', 'green')
+      .attr('fill', 'steelblue')
+
+  chart.selectAll('text')
+    .data(chartData)
+    .enter()
+    .append('text')
+      .text(dataPoint => {
+        return dataPoint.itemsInQueue
+      })
+      .attr('x', (dataPoint, index) => {
+        return getXPx(index, chartWidthPx, chartData.length, barHorizontalPaddingPx) + 4 + 'px'
+      })
+      .attr('y', dataPoint => {
+        return getYPx(chartHeightPx, dataPoint.itemsInQueue, chartData.reduce((currentMax, currentDataPoint) => {
+          if (currentDataPoint.itemsInQueue > currentMax) {
+            return currentDataPoint.itemsInQueue
+          }
+
+          return currentMax
+        }, 0)) + 15 + 'px'
+      })
 }
 
 function getBarWidthPx (containerWidthPx, numDataPoints, paddingPx) {
